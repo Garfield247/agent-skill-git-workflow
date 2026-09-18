@@ -1,0 +1,21 @@
+# Environment & Secrets
+.env
+.env.*
+*.pem
+*.key
+
+# Build outputs
+/bin/
+/dist/
+*.out
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
