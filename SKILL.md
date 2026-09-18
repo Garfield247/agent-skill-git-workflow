@@ -289,3 +289,27 @@ Thumbs.db
   git branch fix/recovered-work
   git checkout fix/recovered-work
   ```
+
+---
+
+# 7. Git 高级卫生与推送安全防线 (Git Hygiene & Safety Redlines)
+
+### 7.1 防破坏性推送安全锁 (Safety Push Lock - 核心红线)
+- **绝对禁止裸 `--force` 推送**：
+  在共享主干分支（`main`、`master`、`develop`、`release/*`），**严禁直接使用 `git push -f`**，避免静默抹掉队友已合并的代码。
+- **强制使用 `--force-with-lease`**：
+  在必须覆写远程分支（如 feature 分支变基后）时，必须使用租约锁推送：
+  ```bash
+  git push --force-with-lease origin <branch-name>
+  ```
+  若远程分支已被他人更新，Git 将自动拒绝覆盖，防止误杀他人成果。
+
+### 7.2 二分排障友好提交 (Bisect-Friendly Commits)
+- 每一个原子 Commit 不仅逻辑单一，而且**必须确保当前提交节点代码能够独立编译通过并跑通基础测试**；
+- 严禁提交中间处于语法错误、断章半截的代码（避免未来团队在执行 `git bisect` 时遭遇中断死结）。
+
+### 7.3 敏感凭证防泄漏预检 (Pre-Commit Secret Hygiene)
+- 在执行 `git add` 与 `git commit` 前，自动扫描暂存区文件，严禁包含：
+  - `.env` 真实环境变量文件；
+  - `id_rsa` / `id_ed25519` 私钥；
+  - 含有真实 API Key / 数据库密码的配置文件。
