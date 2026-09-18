@@ -51,7 +51,7 @@ cp SKILL.md .agents/skills/git-workflow-mastery/SKILL.md
 
 ### 2. 通过 Agent Skills 包管理器安装
 ```bash
-npx skills add Garfield247/git-workflow-mastery
+npx skills add Garfield247/agent-skill-git-workflow
 ```
 
 ---
