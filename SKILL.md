@@ -251,3 +251,41 @@ Thumbs.db
    - 绝对禁止未经用户明确确认执行 `git clean -fd` 抹除未跟踪文件。
 3. **敏感凭证防泄露**：
    - 提交前检查暂存区，严禁将真实的密码、生产 API 密钥、数据库连接字符串提交到 Git 仓库。
+
+---
+
+# 6. Git 异常状态与冲突急救指引 (Git Troubleshooting & Recovery)
+
+在日常协作中遇到冲突或异常 Git 状态时，必须遵循以下安全指引：
+
+### 6.1 变基冲突与中止 (Rebase Conflict Recovery)
+- **现象**：终端提示 `CONFLICT (content): Merge conflict in ...`，处于 `(rebase 1/3)` 状态；
+- **排查与处置**：
+  1. 运行 `git status` 确认冲突文件清单；
+  2. 若现场过于复杂希望彻底恢复原状，执行安全中止命令：
+     ```bash
+     git rebase --abort
+     ```
+  3. 若手工化解冲突后，依次暂存并继续：
+     ```bash
+     git add <resolved-files>
+     git rebase --continue
+     ```
+  - **绝对红线**：严禁在未化解冲突的情况下无脑运行 `git rebase --skip`，避免丢失关键提交！
+
+### 6.2 黄金逃生门：Reflog 撤销与误操作自愈
+- **误执行了 `git reset --hard` 或误删分支**：
+  Git 的每一次引用变更（Commit、Checkout、Reset）均在本地 reflog 留存：
+  ```bash
+  git reflog
+  # 找到操作前的 HEAD 编号（如 HEAD@{2}）并安全跳回：
+  git reset --hard HEAD@{2}
+  ```
+
+### 6.3 游离头指针状态 (Detached HEAD State)
+- **现象**：终端提示 `HEAD detached at <commit>`，在此提交的代码可能在切换分支后被当做垃圾回收；
+- **处置**：基于当前提交立即创建新分支保存成果：
+  ```bash
+  git branch fix/recovered-work
+  git checkout fix/recovered-work
+  ```
