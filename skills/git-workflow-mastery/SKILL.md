@@ -44,6 +44,6 @@ description: >-
 | :--- | :--- | :--- |
 | **分支策略与暂存** | [01_branching_and_stash.md](references/01_branching_and_stash.md) | • feature/bugfix/hotfix 分支命名字典<br>• `git stash push -m` 备注暂存与安全恢复 |
 | **变基与冲突化解** | [02_rebase_and_conflict_resolution.md](references/02_rebase_and_conflict_resolution.md) | • 线性历史变基同步主干流程<br>• 冲突 4 步标准化化解与 `rebase --abort` 逃生门 |
-| **原子提交与精准暂存**| [03_conventional_commits_and_staging.md](references/03_conventional_commits_and_staging.md) | • Conventional Commits 格式与常用 Type 字典<br>• 显式精准暂存与自动生成代码同频提交 |
+| **原子提交与精准暂存**| [03_conventional_commits_and_staging.md](references/03_conventional_commits_and_staging.md) | • Conventional Commits 格式与常用 Type 字典<br>• 显式精准暂存与未推送提交原子追加 (--amend --no-edit) |
 | **.gitignore 四大分类** | [04_gitignore_four_tier_template.md](references/04_gitignore_four_tier_template.md) | • 凭证、构建产物、依赖包与临时日志四大分块<br>• 动态感知与标准模板维护 |
 | **安全红线与 Reflog** | [05_safety_guardrails_and_reflog.md](references/05_safety_guardrails_and_reflog.md) | • `--force-with-lease` 租约推送防覆写红线<br>• `git reflog` 撤销误操作自愈急救 |

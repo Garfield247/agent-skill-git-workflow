@@ -32,3 +32,28 @@
   git commit -m "feat(order): 增加订单取消时自动回退库存逻辑"
   ```
 - **自动生成物同频提交**：契约变更重新生成代码后，手写 Logic 必须与生成的 Handler/Types 打包在同一个原子 Commit 中，确保每个提交节点均能独立编译通过。
+
+---
+
+## 3. 未推送提交原子追加与修补规范 (Unpushed Commit Amendment)
+
+> 💡 **核心目标**：彻底消灭无意义的微小碎提交（如“改错字”、“补参数”），保持线性提交历史的高信息密度与原子自洽性。
+
+### 3.1 状态判定与决策分支 (Decision Matrix)
+- 🟢 **未推送状态 (`ahead of origin` / 纯本地提交)**：
+  - **决策**：**强力推荐优先追加修补（Amend）**，将补充改动合并至上一个原子 Commit 中；
+- 🔴 **已推送状态 (`up to date with origin` / 公共分支已发布)**：
+  - **决策**：**坚决禁止 `--amend`**！防止本地与远程基准分叉导致强推覆写他人代码；必须新开一个独立的语义化补丁提交（如 `fix(scope): ...`）。
+
+### 3.2 标准原子追加命令范式
+```bash
+# 1. 显式精准暂存修补文件
+git add internal/logic/order_logic.go
+
+# 2. 推荐：无声追加（保持原提交说明与 Type 格式不变）
+git commit --amend --no-edit
+
+# 3. 备选：若微调涉及提交说明补充，可显式覆写说明
+git commit --amend -m "feat(order): 增加订单取消时自动回退库存并补全幂等拦截"
+```
+
